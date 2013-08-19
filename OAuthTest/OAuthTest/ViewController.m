@@ -17,7 +17,7 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+  [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 - (void)viewDidAppear:(BOOL)animated {
@@ -27,19 +27,18 @@
   viewController.view = webView;
   
   NSString *urlString = @"https://accounts.google.com/o/oauth2/auth?"
-  "client_id=768433327225.apps.googleusercontent.com&"
+  "client_id=CLIENT_ID&" // replace to your Client ID
   "redirect_uri=";
   NSString *redirectURI = @"urn:ietf:wg:oauth:2.0:oob&";
-//  NSString *redirectURI = @"http%3A%2F%2Flocalhost%2Foauth2callback&";
+  //  NSString *redirectURI = @"http%3A%2F%2Flocalhost%2Foauth2callback&";
   urlString = [urlString stringByAppendingString:redirectURI];
   urlString = [urlString stringByAppendingString:
                @"scope=https://www.googleapis.com/auth/youtube&"
                "response_type=code&"
-               "access_type=offline&"
-               "state='fugafuga'"];
+               "access_type=offline"];
   NSURL *url = [NSURL URLWithString:urlString];
-//  [[UIApplication sharedApplication] openURL:url];
-
+  //  [[UIApplication sharedApplication] openURL:url];
+  
   webView.delegate = self;
   [self presentViewController:viewController animated:YES completion:^{
     [webView loadRequest:[NSURLRequest requestWithURL:url]];
@@ -48,8 +47,8 @@
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+  [super didReceiveMemoryWarning];
+  // Dispose of any resources that can be recreated.
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -68,10 +67,10 @@
     NSData *bodyData = [bodyString dataUsingEncoding:NSUTF8StringEncoding];
     [req setValue:@"application/x-www-form-urlencoded"                 forHTTPHeaderField:@"Content-Type"];
     [req setValue:[NSString stringWithFormat:@"%d", [bodyData length]] forHTTPHeaderField:@"Content-Length"];
-
+    
     [req setHTTPMethod:@"POST"];
     [req setHTTPBody:bodyData];
-//    [req setHTTPShouldHandleCookies:YES];
+    //    [req setHTTPShouldHandleCookies:YES];
     self.connection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
   }
 }
